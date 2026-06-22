@@ -1,22 +1,8 @@
-
-
-
-
-
-
 import hashlib # Using this for SHA256 encrypting.
 import secrets # Using this for random salt generation.
 import json # Using this for saving users' information.
 import os # Using this to check if the json file exists in PC.
 import hmac # Using this for secure hash comprsion.
-print(r"""
-██████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ███╗   ██╗ This project was written by Python.
-██╔══██╗╚██╗ ██╔╝╚══██╔══╝██║  ██║██╔═══██╗████╗  ██║ 2DIP AS91896 - School Cafe Click & Collect System
-██████╔╝ ╚████╔╝    ██║   ███████║██║   ██║██╔██╗ ██║ 12 June 2026
-██╔═══╝   ╚██╔╝     ██║   ██╔══██║██║   ██║██║╚██╗██║ I dont know what to write one this line.
-██║        ██║      ██║   ██║  ██║╚██████╔╝██║ ╚████║ Copyright (c) 2026. All rights reserved.
-╚═╝        ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ==================================================
-      """)
 DB_FILE = "users_data.json" # User database file.
 MIN_PASS_LEN = 8 # Minimum password length.
 MAX_PASS_LEN = 32 # Maximum password length.

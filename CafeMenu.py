@@ -123,7 +123,7 @@ def place_order(username):
             print("Item not found.")
             continue
         quantity = input("Quantity: ")
-        if not quantity.isdigit():
+        if not quantity.isdigit() or int(quantity) <= 0:
             print("Invalid quantity.")
             continue
         quantity = int(quantity)

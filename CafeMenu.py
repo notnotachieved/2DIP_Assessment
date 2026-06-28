@@ -43,8 +43,10 @@ def load_data():
 def save_data(data):
     with open(DB_FILE, "w", encoding="utf-8") as f: # Open the JSON file in write mode with UTF-8 encoding.
         json.dump(data, f, indent=4)
-
-def handle_register(ent_user, ent_pass):
+ent_user = None
+ent_pass = None
+def handle_register():
+    global ent_user, ent_pass
     username = ent_user.get().strip()
     password = ent_pass.get()
     data = load_data()
@@ -63,7 +65,8 @@ def handle_register(ent_user, ent_pass):
     save_data(data)
     messagebox.showinfo("Success", "Your account have been created !")
 
-def handle_login(ent_user, ent_pass):
+def handle_login():
+    global ent_user, ent_pass
     username = ent_user.get().strip()
     password = ent_pass.get()
     data = load_data()
@@ -83,6 +86,7 @@ def handle_login(ent_user, ent_pass):
         messagebox.showerror("Error_PWoID2", "Invalid user name or password") # Ensure privacy and security
 
 def show_menu():
+    global ent_user, ent_pass
     clear_window()
     root.title("safe lgin system ")
     tk.Label(root, text="User Name:").pack(pady=5)
@@ -93,8 +97,8 @@ def show_menu():
     ent_pass.pack()
     btn_frame = tk.Frame(root)
     btn_frame.pack(pady=20)
-    tk.Button(btn_frame, text="Sign in", command=lambda: handle_login(ent_user, ent_pass), width=10).pack(side=tk.LEFT, padx=5)
-    tk.Button(btn_frame, text="Sign up", command=lambda: handle_register(ent_user, ent_pass), width=10).pack(side=tk.LEFT, padx=5)
+    tk.Button(btn_frame, text="Sign in", command=lambda: handle_login, width=10).pack(side=tk.LEFT, padx=5)
+    tk.Button(btn_frame, text="Sign up", command=lambda: handle_register, width=10).pack(side=tk.LEFT, padx=5)
     tk.Button(root, text="Exit", command=root.quit, width=10, bg="#ffcccb").pack(pady=10)
 
 def display_menu(parent_frame):

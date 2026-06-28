@@ -1,3 +1,4 @@
+# If you are using the macOS 27 developer beta internal build as your runtime environment, you must download the latest version of Python and update the virtual environment. Else the app will not display correctly as expected. :D
 import hashlib # Using this for SHA256 encrypting.
 import secrets # Using this for random salt generation.
 import hmac # Using this for secure hash comprsion.
@@ -98,10 +99,47 @@ def show_menu():
     tk.Button(root, text="Exit", command=root.quit, width=10, bg="#ffcccb").pack(pady=10)
 
 def display_menu(parent_frame):
-    for item_id, (name, price) in PRODUCTS.items():
-        f = tk.Frame(parent_frame)
-        f.pack(fill=tk.X, pady=4, padx=5)
-        tk.Label(f, text=f"{item_id}. {name:<10} ${price:.2f}", font=("Courier", 11)).pack(side=tk.LEFT)
+    parent_frame.configure(bg="#FFF8F0")
+    tk.Label(
+        parent_frame,
+        text="CAFÉ MENU",
+        font=("Arial",14,"bold"),
+        fg="#5D4037",
+        bg="#FFF8F0"
+    ).pack(pady=(5,10))
+    for item_id,(name,price) in PRODUCTS.items():
+        row = tk.Frame(
+            parent_frame,
+            bg="#FFF8F0"
+        )
+        row.pack(
+            fill=tk.X,
+            padx=15,
+            pady=4
+        )
+        tk.Label(
+            row,
+            text=f"{item_id}.",
+            font=("Arial",10,"bold"),
+            width=3,
+            anchor="w",
+            bg="#FFF8F0"
+        ).pack(side=tk.LEFT)
+        tk.Label(
+            row,
+            text=name,
+            font=("Arial",10,"bold"),
+            width=12,
+            anchor="w",
+            bg="#FFF8F0"
+        ).pack(side=tk.LEFT)
+        tk.Label(
+            row,
+            text=f"${price:.2f}",
+            font=("Arial",10),
+            fg="#2E7D32",
+            bg="#FFF8F0"
+        ).pack(side=tk.RIGHT)
 
 def place_order(username):
     clear_window()
@@ -114,14 +152,12 @@ def place_order(username):
     main_frame.pack(fill=tk.BOTH, expand=True, padx=10)
     left_frame = tk.LabelFrame(main_frame, text=" Cafe Menu ")
     left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-    
     for item_id, (name, price) in PRODUCTS.items():
         f = tk.Frame(left_frame)
         f.pack(fill=tk.X, pady=5, padx=5)
         tk.Label(f, text=f"{name} (${price:.2f})", font=("Arial", 10)).pack(side=tk.LEFT)
         spin = tk.Spinbox(f, from_=1, to=20, width=3)
         spin.pack(side=tk.RIGHT, padx=2)
-        
         def add_item(n=name, p=price, s=spin):
             try:
                 quantity = int(s.get())
@@ -136,7 +172,7 @@ def place_order(username):
             update_cart_preview()
         tk.Button(f, text="Add", command=add_item, width=5).pack(side=tk.RIGHT)
     right_frame = tk.LabelFrame(main_frame, text=" Current Cart ")
-    right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)  
+    right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)  # output the current order and total price
     txt_preview = tk.Text(right_frame, width=25, height=12, font=("Courier", 10))
     txt_preview.pack(pady=5, padx=5)
     
@@ -147,7 +183,7 @@ def place_order(username):
             txt_preview.insert(tk.END, "No items ordered.")
         else:
             for item_name, qty, _, sub in current_order:
-                txt_preview.insert(tk.END, f"{item_name:<10} x{qty:<2} ${sub:.2f}\n")
+                txt_preview.insert(tk.END, f"{item_name:<10} x{qty:<2} ${sub:.2f}\n") 
             txt_preview.insert(tk.END, f"\nTotal: ${current_total:.2f}")
         txt_preview.config(state=tk.DISABLED)
     update_cart_preview()
@@ -186,26 +222,88 @@ def save_invoice(username, order_id, order, current_total):
     messagebox.showinfo("Saved", f"Invoice saved as '{filename}'")
 
 def user_menu(username):
+
     clear_window()
-    root.title("School Cafe - User Menu")   
-    tk.Label(root, text="===================", fg="gray").pack()
-    tk.Label(root, text="     USER MENU", font=("Arial", 14, "bold")).pack()
-    tk.Label(root, text="===================", fg="gray").pack()
-    menu_view_frame = tk.Frame(root)
-    
+    root.title("School Cafe - User Menu")
+    root.configure(bg="#FFF8F0")
+
+    tk.Label(
+        root,
+        text="☕ SCHOOL CAFÉ",
+        font=("Arial", 20, "bold"),
+        fg="#5D4037",
+        bg="#FFF8F0"
+    ).pack(pady=(20,5))
+
+    tk.Label(
+        root,
+        text=f"Welcome, {username}",
+        font=("Arial", 12, "bold"),
+        fg="#6D4C41",
+        bg="#FFF8F0"
+    ).pack()
+
+    tk.Label(
+        root,
+        text="Click & Collect System",
+        font=("Arial",11),
+        fg="gray",
+        bg="#FFF8F0"
+    ).pack(pady=(0,20))
+
+    menu_view_frame = tk.Frame(root,bg="#FFF8F0")
+
     def toggle_menu_view():
+
         if menu_view_frame.winfo_children():
-            for w in menu_view_frame.winfo_children(): w.destroy()
+
+            for w in menu_view_frame.winfo_children():
+                w.destroy()
+
             menu_view_frame.pack_forget()
+
         else:
-            menu_view_frame.pack(pady=5)
+
+            menu_view_frame.pack(pady=10)
+
             display_menu(menu_view_frame)
-    tk.Button(root, text="1. View Menu", font=("Arial", 11), width=20, command=toggle_menu_view).pack(pady=5)
-    tk.Button(root, text="2. Place Order", font=("Arial", 11), width=20, command=lambda: place_order(username)).pack(pady=5)
-    tk.Button(root, text="3. Logout", font=("Arial", 11), width=20, fg="red", command=show_menu).pack(pady=5) # 修正：show_auth_menu -> show_menu
+
+    tk.Button(
+        root,
+        text="📋 View Menu",
+        font=("Arial",11,"bold"),
+        bg="#81C784",
+        fg="white",
+        width=20,
+        relief="raised",
+        command=toggle_menu_view
+    ).pack(pady=6)
+
+    tk.Button(
+        root,
+        text="🛒 Place Order",
+        font=("Arial",11,"bold"),
+        bg="#64B5F6",
+        fg="white",
+        width=20,
+        relief="raised",
+        command=lambda: place_order(username)
+    ).pack(pady=6)
+
+    tk.Button(
+        root,
+        text="🚪 Logout",
+        font=("Arial",11,"bold"),
+        bg="#E57373",
+        fg="white",
+        width=20,
+        relief="raised",
+        command=show_menu
+    ).pack(pady=15)
 
 def main():
     show_menu()
 if __name__ == "__main__":
     main()
     root.mainloop()
+#2026年6月26日最后编辑:D

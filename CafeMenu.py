@@ -84,17 +84,17 @@ def handle_login(ent_user, ent_pass):
 
 def show_menu():
     clear_window()
-    root.title("unsafe lgin system ")
+    root.title("safe lgin system ")
     tk.Label(root, text="User Name:").pack(pady=5)
     ent_user = tk.Entry(root)
     ent_user.pack()
     tk.Label(root, text="Password:").pack(pady=5)
-    self_ent_pass = tk.Entry(root, show="*") # Hide users password
-    self_ent_pass.pack()
+    ent_pass = tk.Entry(root, show="*") # Hide users password
+    ent_pass.pack()
     btn_frame = tk.Frame(root)
     btn_frame.pack(pady=20)
-    tk.Button(btn_frame, text="Sign in", command=lambda: handle_login(ent_user, self_ent_pass), width=10).pack(side=tk.LEFT, padx=5)
-    tk.Button(btn_frame, text="Sign up", command=lambda: handle_register(ent_user, self_ent_pass), width=10).pack(side=tk.LEFT, padx=5)
+    tk.Button(btn_frame, text="Sign in", command=lambda: handle_login(ent_user, ent_pass), width=10).pack(side=tk.LEFT, padx=5)
+    tk.Button(btn_frame, text="Sign up", command=lambda: handle_register(ent_user, ent_pass), width=10).pack(side=tk.LEFT, padx=5)
     tk.Button(root, text="Exit", command=root.quit, width=10, bg="#ffcccb").pack(pady=10)
 
 def display_menu(parent_frame):
